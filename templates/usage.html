@@ -1,0 +1,39 @@
+# -*- coding: utf-8 -*-
+<%inherit file="/base.html" />
+
+<%def name="head_tags()">
+  <!-- add some head tags here -->
+</%def>
+
+<h1>Dropbox </h1>
+
+<h3>Create new object</h3>
+<p>
+<form method="POST" enctype="multipart/form-data" action="/">
+ID: <input type="text" name="id"/>
+<input type="submit" value="Create new object"/>
+</form>
+</p>
+
+<h3>Existing Items</h3>
+% if items:
+<table>
+<tr>
+<th>ID</th><th>&nbsp;</th>
+</tr>
+% for item in items:
+${makerow(item)}
+% endfor
+</table>
+% endif
+
+<%def name="makerow(item)">
+    <tr>
+        <td><a href="/${item}">${item}</a></td>
+        <td><form method="POST" enctype="multipart/form-data" action="/${item}">
+Version: <input type="text" name="version"/>
+<input type="submit" value="Create version"/>
+</form>
+</td>
+    </tr>
+</%def>

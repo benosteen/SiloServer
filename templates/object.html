@@ -1,0 +1,86 @@
+# -*- coding: utf-8 -*-
+<%inherit file="/base.html" />
+
+<%def name="head_tags()">
+  <!-- add some head tags here -->
+</%def>
+
+<h1>${item.item_id}</h1>
+
+<h3>Create new version</h3>
+<p>
+<form method="POST" enctype="multipart/form-data" action="/${item.item_id}">
+Version: <input type="text" name="version"/>
+<input type="submit" value="Create new empty version"/>
+</form>
+</p>
+
+
+<!-- <table border = "1">
+<tr>
+<th>Version</th><th>Files</th><th>Add file</th><th>Clone</th>
+</tr> -->
+
+<ul>
+% for version in item.versions:
+${makeli(version)}
+% endfor
+</ul>
+<!--
+</table>
+-->
+
+<%def name="makeli(version)">
+    <li id="item_${version}">Version: <a href="/${item.item_id}/${version}">${version}</a> - Files: 
+<%
+item.set_version_cursor(version)
+%>
+% for file in item.files:
+<span id="${"_".join(version.split("."))}_${"_".join(file.split("."))}"><a href="/${item.item_id}/${version}/${file}">${file}</a> <font size="-2"><a class="delete" href="/${item.item_id}/${version}/${file}" data-remove="${"_".join(version.split("."))}_${"_".join(file.split("."))}">(remove)</a></font></span>
+% endfor
+<ul><li><form method="POST" enctype="multipart/form-data" action="/${item.item_id}/${version}">
+<input type="file" name="part" /> 
+<input type="submit" name="Add File"/>
+<font size="-1">(optional: rename to: <input type="text" name="path"/>)</font>
+</form>
+</li>
+<li>
+<form method="POST" enctype="multipart/form-data" action="/${item.item_id}">
+<input type="hidden" name="old_version" value="${version}"/>
+<input type="submit" value="Clone to:"/>
+<input type="text" name="version"/>
+</form>
+</li>
+<li><a class="delete" href="/${item.item_id}/${version}" data-remove="item_${version}">Delete</a></td>
+    </li></ul>
+    </li>
+</%def>
+
+
+<%def name="makerow(version)">
+    <tr id="item_${version}">
+        <td><a href="/${item.item_id}/${version}">${version}</a></td>
+        <td>
+<%
+item.set_version_cursor(version)
+%>
+% for file in item.files:
+<a href="/${item.item_id}/${version}/${file}">${file}</a>, 
+% endfor
+        </td>
+        <td><form method="POST" enctype="multipart/form-data" action="/${item.item_id}/${version}">
+<input type="file" name="part" /> <font size="-1">(optional path: <input type="text" name="path"/>)</font>
+<input type="submit" value="Upload"/>
+</form>
+</td>
+<td>
+<form method="POST" enctype="multipart/form-data" action="/${item.item_id}">
+<input type="hidden" name="old_version" value="${version}"/>
+<input type="submit" value="Clone to:"/>
+<input type="text" name="version"/>
+</form>
+</td>
+<td><a class="delete" href="/${item.item_id}/${version}" data-remove="item_${version}">Delete</a></td>
+    </tr>
+</%def>
+

@@ -1,0 +1,44 @@
+# -*- coding: utf-8 -*-
+<%inherit file="/base.html" />
+
+<%def name="head_tags()">
+  <!-- add some head tags here -->
+</%def>
+
+<%
+item.set_version_cursor(version)
+%>
+
+<h1> ${item.item_id} - version ${version}</h1>
+
+<p><a href="/${item.item_id}">Go to root page for this item.</a></p>
+
+<ul>
+% for file in item.files:
+<% 
+filetext = file
+if item.isdir(file, version):
+  filetext = file + "/"
+%>
+<li id="${"_".join(version.split("."))}_${"_".join(file.split("."))}">
+<a href="/${item.item_id}/${version}/${file}">${filetext}</a> - 
+<font size="-2"><a class="delete" href="/${item.item_id}/${version}/${file}" data-remove="${"_".join(version.split("."))}_${"_".join(file.split("."))}">(remove)</a></font>
+</li>
+% endfor
+</ul>
+<ul><li><form method="POST" enctype="multipart/form-data" action="/${item.item_id}/${version}">
+<input type="file" name="part" /> 
+<input type="submit" name="Add File"/>
+<font size="-1">(optional: rename to: <input type="text" name="path"/>)</font>
+</form>
+</li>
+<li>
+<form method="POST" enctype="multipart/form-data" action="/${item.item_id}">
+<input type="hidden" name="old_version" value="${version}"/>
+<input type="submit" value="Clone to:"/>
+<input type="text" name="version"/>
+</form>
+</li>
+<li><a class="delete" href="/${item.item_id}/${version}" data-remove="item_${version}">Delete this version</a></td>
+    </li></ul>
+
