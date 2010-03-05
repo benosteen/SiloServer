@@ -13,6 +13,8 @@ from urllib import urlencode, unquote, quote
 
 from datetime import datetime
 
+from pprint import pprint
+
 urls = (
         '/', 'usage',
         '/(.*)', 'api',
@@ -20,7 +22,7 @@ urls = (
 
 app = web.application(urls, globals(), autoreload=True)
 
-data_dir = "../../maths_repo/"
+data_dir = "../economics_repo/"
 
 s = Silo(data_dir)
 

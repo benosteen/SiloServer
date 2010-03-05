@@ -15,11 +15,13 @@ Version: <input type="text" name="version"/>
 </form>
 </p>
 
+<%
+from pprint import pformat
+%>
 
-<!-- <table border = "1">
-<tr>
-<th>Version</th><th>Files</th><th>Add file</th><th>Clone</th>
-</tr> -->
+<pre>
+${pformat(item.metadata)}
+</pre>
 
 <ul>
 % for version in item.versions:

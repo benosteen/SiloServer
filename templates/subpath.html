@@ -23,7 +23,13 @@ subpath_values = subpath.split("/")
 <li><a href="/${item.item_id}/${version}/${"/".join(subpath_values[:x+1])}">${"/".join(subpath_values[:x+1])}/</a></li>
 % endfor
 % endif
+<%
+from pprint import pformat
+%>
 
+<pre>
+${pformat(item.metadata)}
+</pre>
 <ul>
 % for file in item.list_parts(subpath):
 <% 

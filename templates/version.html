@@ -12,7 +12,13 @@ item.set_version_cursor(version)
 <h1> ${item.item_id} - version ${version}</h1>
 
 <p><a href="/${item.item_id}">Go to root page for this item.</a></p>
+<%
+from pprint import pformat
+%>
 
+<pre>
+${pformat(item.metadata)}
+</pre>
 <ul>
 % for file in item.files:
 <% 
