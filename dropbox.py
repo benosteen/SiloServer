@@ -15,14 +15,15 @@ from datetime import datetime
 
 from pprint import pprint
 
+# This is how to set the location of the silo:
+from silodirectory_conf import data_dir
+
 urls = (
         '/', 'usage',
         '/(.*)', 'api',
         )
 
 app = web.application(urls, globals(), autoreload=True)
-
-data_dir = "../economics_repo/"
 
 s = Silo(data_dir)
 
